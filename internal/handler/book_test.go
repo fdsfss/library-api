@@ -202,7 +202,7 @@ func TestBookHandler_Get(t *testing.T) {
 			respBody, err := io.ReadAll(resp.Body)
 			assert.NoError(t, err)
 
-			if testCase.expectedStatus == fiber.StatusOK { //
+			if testCase.expectedStatus == fiber.StatusOK {
 				var actual []model.Book
 				err = json.Unmarshal(respBody, &actual)
 				assert.NoError(t, err)

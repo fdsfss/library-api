@@ -20,7 +20,7 @@ func (b *BookStore) Create(book *model.Book) error {
 func (b *BookStore) Get() ([]model.Book, error) {
 	rows, err := b.db.Query(`SELECT * FROM books`)
 	if err != nil {
-		b.logger.Error("select all failed for books", "error", err.Error())
+		b.logger.Error("failed to execute query for get books", "error", err.Error())
 		return nil, err
 	}
 	defer rows.Close()

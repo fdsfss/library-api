@@ -8,7 +8,7 @@ import (
 func (m *MemberStore) Get() ([]model.Member, error) {
 	rows, err := m.db.Query(`SELECT * FROM members`)
 	if err != nil {
-		m.logger.Error("get all failed for members", "error", err.Error())
+		m.logger.Error("failed to execute query for get members", "error", err.Error())
 		return nil, err
 	}
 	defer rows.Close()
@@ -18,7 +18,7 @@ func (m *MemberStore) Get() ([]model.Member, error) {
 		var member model.Member
 		err = rows.Scan(&member.ID, &member.FullName)
 		if err != nil {
-			m.logger.Error("get all failed for members", "error", err.Error())
+			m.logger.Error("scanning selected failed for members", "error", err.Error())
 			return nil, err
 		}
 

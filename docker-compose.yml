@@ -13,7 +13,7 @@ services:
       - pgdata:/var/lib/postgresql/data
 
   app:
-    build: ../../library-api1
+    build: ../../library-api
     container_name: library-app
     depends_on:
       - db

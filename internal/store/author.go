@@ -8,7 +8,7 @@ import (
 func (a *AuthorStore) Get() ([]model.Author, error) {
 	rows, err := a.db.Query(`SELECT * FROM authors`)
 	if err != nil {
-		a.logger.Error("select all request failed for author", "error", err.Error()) //
+		a.logger.Error("failed to execute query for get authors", "error", err.Error())
 		return nil, err
 	}
 	defer rows.Close()
