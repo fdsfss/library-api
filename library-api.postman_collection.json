@@ -1,0 +1,439 @@
+{
+	"info": {
+		"_postman_id": "6a45b69b-7ea5-4717-b977-2a1693fc2170",
+		"name": "library-api",
+		"description": "Эта коллекция предоставляет полный набор endpoints для управления авторами, книгами, читателями и операциями выдачи книг.\n\n- **author**: операции с авторами книг\n    \n- **book**: управление каталогом книг\n    \n- **member**: управление читателями библиотеки\n    \n- **borrowed**: операции выдачи и возврата книг\n    \n\nКоллекция содержит автотесты для всех CRUD-операций.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49042559"
+	},
+	"item": [
+		{
+			"name": "author",
+			"item": [
+				{
+					"name": "Get /authors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/authors",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"authors"
+							]
+						},
+						"description": "Получение списка всех авторов"
+					},
+					"response": []
+				},
+				{
+					"name": "Create /author",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"full_name\": \"Super Author\",\r\n  \"nick_name\": \"sa\",\r\n  \"specialization\": \"IT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/author",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author"
+							]
+						},
+						"description": "Создание нового автора"
+					},
+					"response": []
+				},
+				{
+					"name": "Update /author/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"full_name\": \"Super Author\",\r\n  \"nick_name\": \"sa\",\r\n  \"specialization\": \"IT\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/author/ce99cad9-9d1c-4e8c-a306-e51d7022926e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author",
+								"ce99cad9-9d1c-4e8c-a306-e51d7022926e"
+							]
+						},
+						"description": "Обновление информации об авторе"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete /author/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/author/ce99cad9-9d1c-4e8c-a306-e51d7022926e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author",
+								"ce99cad9-9d1c-4e8c-a306-e51d7022926e"
+							]
+						},
+						"description": "Удаление автора из системы библиотеки по его ID"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAuthorBooks /author/:id/books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/author/ce99cad9-9d1c-4e8c-a306-e51d7022926e/books",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"author",
+								"ce99cad9-9d1c-4e8c-a306-e51d7022926e",
+								"books"
+							]
+						},
+						"description": "Получение списка всех книг конкретного автора"
+					},
+					"response": []
+				}
+			],
+			"description": "Эта папка содержит все операции для работы с авторами книг в библиотеке"
+		},
+		{
+			"name": "book",
+			"item": [
+				{
+					"name": "Get /books",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/books",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"books"
+							]
+						},
+						"description": "Получение списка всех книг"
+					},
+					"response": []
+				},
+				{
+					"name": "Create /book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"authors_id\": \"7c5d8a52-eb13-4aa7-be12-515f80e0c6e3\",\r\n    \"title\": \"Hearts on the Avenue\",\r\n    \"genre\": \"Romance\",\r\n    \"isbn\": \"978-1-00006-000-3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/book",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"book"
+							]
+						},
+						"description": "Добавление новой книги"
+					},
+					"response": []
+				},
+				{
+					"name": "Update /book/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"authors_id\": \"7c5d8a52-eb13-4aa7-be12-515f80e0c6e3\",\r\n    \"title\": \"Hearts on the Avenue\",\r\n    \"genre\": \"Romance\",\r\n    \"isbn\": \"978-1-00006-000-3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/book/f92286d0-9c8f-402d-a6c1-9bca5b61fc5e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"book",
+								"f92286d0-9c8f-402d-a6c1-9bca5b61fc5e"
+							]
+						},
+						"description": "Обновление информации книги по ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete /book/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/book/de54876a-2db3-4765-9ac1-0f2502b64793",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"book",
+								"de54876a-2db3-4765-9ac1-0f2502b64793"
+							]
+						},
+						"description": "Удаление книги по ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Эта папка содержит все операции для работы с каталогом книг библиотеки"
+		},
+		{
+			"name": "member",
+			"item": [
+				{
+					"name": "Get /members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/members",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"members"
+							]
+						},
+						"description": "Получение списка всех читателей библиотеки"
+					},
+					"response": []
+				},
+				{
+					"name": "Create /member",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"full_name\": \"Ruslan Omarov\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/member",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member"
+							]
+						},
+						"description": "Создание нового читателя"
+					},
+					"response": []
+				},
+				{
+					"name": "Update /member/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/member/8ed3d7fd-88e6-44d9-b34b-9257a9a2d5b4",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member",
+								"8ed3d7fd-88e6-44d9-b34b-9257a9a2d5b4"
+							]
+						},
+						"description": "Обновление данных читателя по ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete /member/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/member/b4988d64-9ec2-4d66-9dfe-74ec3fcfca9e",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member",
+								"b4988d64-9ec2-4d66-9dfe-74ec3fcfca9e"
+							]
+						},
+						"description": "Удаление читателя по ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Эта папка содержит все операции для работы с читателями библиотеки."
+		},
+		{
+			"name": "borrowed",
+			"item": [
+				{
+					"name": "Get /member/:id/borrowed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/member/8ed3d7fd-88e6-44d9-b34b-9257a9a2d5b4/borrowed",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member",
+								"8ed3d7fd-88e6-44d9-b34b-9257a9a2d5b4",
+								"borrowed"
+							]
+						},
+						"description": "Получение списка книг, выданных конкретному читателю"
+					},
+					"response": []
+				},
+				{
+					"name": "Create /member/borrowed",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"member_id\": \"8ed3d7fd-88e6-44d9-b34b-9257a9a2d5b4\",\r\n  \"book_id\": \"a200499b-8b26-4cd3-8724-d34254eae9ee\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/member/borrowed",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member",
+								"borrowed"
+							]
+						},
+						"description": "Выдача книги читателю"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete /member/:id/borrowed/:book_id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/member/3f45f596-ae05-4a60-802c-e2d45e7c26a2/borrowed/de54876a-2db3-4765-9ac1-0f2502b64793",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member",
+								"3f45f596-ae05-4a60-802c-e2d45e7c26a2",
+								"borrowed",
+								"de54876a-2db3-4765-9ac1-0f2502b64793"
+							]
+						},
+						"description": "Возврат одной книги"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteList /member/:id/borrowed",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"de54876a-2db3-4765-9ac1-0f2502b64793\",\r\n    \"a200499b-8b26-4cd3-8724-d34254eae9ee\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/member/3f45f596-ae05-4a60-802c-e2d45e7c26a2/borrowed",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"member",
+								"3f45f596-ae05-4a60-802c-e2d45e7c26a2",
+								"borrowed"
+							]
+						},
+						"description": "Возврат всех книг читателя"
+					},
+					"response": []
+				}
+			],
+			"description": "Эта папка содержит все операции для управления процессом выдачи и возврата книг читателям."
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
