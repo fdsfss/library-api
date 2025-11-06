@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:15
+    container_name: library-db
+    restart: always
+    ports:
+      - "5555:5432"
+    environment:
+      POSTGRES_USER: Dana
+      POSTGRES_PASSWORD: qwerty123
+      POSTGRES_DB: library-db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: ../../library-api1
+    container_name: library-app
+    depends_on:
+      - db
+    environment:
+      - PORT=8080
+      - DB_CONN=host=db port=5432 user=Dana password=qwerty123 dbname=library-db sslmode=disable
+    ports:
+      - "8080:8080"
+    command: ["./library-app"]
+
+volumes:
+  pgdata: {}
