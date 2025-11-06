@@ -1,0 +1,1325 @@
+{
+	"info": {
+		"_postman_id": "82135321-78d9-4a7b-8f38-3bd9f1fb7838",
+		"name": "auto-tests",
+		"description": "Коллекция автотестов.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49042559"
+	},
+	"item": [
+		{
+			"name": "library-api",
+			"item": [
+				{
+					"name": "author-get-success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Каждый автор имеет поле 'id'\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    jsonData.forEach(author => {\r",
+									"        pm.expect(author).to.have.property(\"id\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{libraryBaseUrl}}/authors",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"authors"
+							]
+						},
+						"description": "Успешный кейс получения автора"
+					},
+					"response": []
+				},
+				{
+					"name": "author-create-success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'message' содержит значение 'author created'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.message).to.eql(\"author created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"full_name\": \"test\",\r\n  \"nick_name\": \"test\",\r\n  \"specialization\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/author",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"author"
+							]
+						},
+						"description": "Успешный кейс создания автора"
+					},
+					"response": []
+				},
+				{
+					"name": "author-create-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'author creation failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"author creation failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/author",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"author"
+							]
+						},
+						"description": "Кейс некорректного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "author-create-incomplete-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'author creation failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"author creation failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/author",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"author"
+							]
+						},
+						"description": "Кейс неполного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "author-create-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'author update failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"author update failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/author/1",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"author",
+								"1"
+							]
+						},
+						"description": "Кейс некорректного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "author-delete-success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'message' содержит значение 'author deleted'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.message).to.eql(\"author deleted\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/author/059bfc35-8fb1-4d6a-8f93-7fae7f3511d6",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"author",
+								"059bfc35-8fb1-4d6a-8f93-7fae7f3511d6"
+							]
+						},
+						"description": "Успешный кейс удаления автора"
+					},
+					"response": []
+				},
+				{
+					"name": "author-delete-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 500\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'server error'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"server error\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/author/1",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"author",
+								"1"
+							]
+						},
+						"description": "Кейс некорректного ID запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "author-get-author-books-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 500\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'server error'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"server error\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{libraryBaseUrl}}/author/1/books",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"author",
+								"1",
+								"books"
+							]
+						},
+						"description": "Кейс некорректного ID запросa"
+					},
+					"response": []
+				},
+				{
+					"name": "book-get-success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Каждая книга имеет поле 'id'\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    jsonData.forEach(author => {\r",
+									"        pm.expect(author).to.have.property(\"id\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{libraryBaseUrl}}/books",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"books"
+							]
+						},
+						"description": "Успешный кейс получения всех книг в библиотеке"
+					},
+					"response": []
+				},
+				{
+					"name": "book-create-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'book creation failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"book creation failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/book",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"book"
+							]
+						},
+						"description": "Кейс некорректного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "book-create-incomplete-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'book creation failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"book creation failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/book",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"book"
+							]
+						},
+						"description": "Кейс неполного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "book-create-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'book update failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"book update failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/book/1",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"book",
+								"1"
+							]
+						},
+						"description": "Кейс некорректного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "book-delete-success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'message' содержит значение 'book deleted'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.message).to.eql(\"book deleted\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/book/059bfc35-8fb1-4d6a-8f93-7fae7f3511d6",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"book",
+								"059bfc35-8fb1-4d6a-8f93-7fae7f3511d6"
+							]
+						},
+						"description": "Успешный кейс удаления книги"
+					},
+					"response": []
+				},
+				{
+					"name": "book-delete-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 500\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'server error'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"server error\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/book/1",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"book",
+								"1"
+							]
+						},
+						"description": "Кейс некорректного ID запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "member-get-success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Каждый 'member' имеет поле 'id'\", function () {\r",
+									"    let jsonData = pm.response.json();\r",
+									"    jsonData.forEach(author => {\r",
+									"        pm.expect(author).to.have.property(\"id\");\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/members",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"members"
+							]
+						},
+						"description": "Успешный кейс получения книг читателя"
+					},
+					"response": []
+				},
+				{
+					"name": "member-create-success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 201\", () => {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'message' содержит значение 'member created'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.message).to.eql(\"member created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member"
+							]
+						},
+						"description": "Успешный кейс создания читателей"
+					},
+					"response": []
+				},
+				{
+					"name": "member-create-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'member creation failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"member creation failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member"
+							]
+						},
+						"description": "Кейс некорректного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "member-create-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'member update failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"member update failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member/1",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member",
+								"1"
+							]
+						},
+						"description": "Кейс некорректного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "member-delete-success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'message' содержит значение 'member deleted'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.message).to.eql(\"member deleted\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member/059bfc35-8fb1-4d6a-8f93-7fae7f3511d6",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member",
+								"059bfc35-8fb1-4d6a-8f93-7fae7f3511d6"
+							]
+						},
+						"description": "Успешный кейс удаления читателя"
+					},
+					"response": []
+				},
+				{
+					"name": "member-delete-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа - 500\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'server error'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"server error\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member/1",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member",
+								"1"
+							]
+						},
+						"description": "Кейс некорректного ID запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "borrowed-get-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа 500\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'server error'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"server error\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member/1/borrowed",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member",
+								"1",
+								"borrowed"
+							]
+						},
+						"description": "Кейс некорректного ID запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "borrowed-create-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа 400\", () => {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'borrowed book creation failed'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"borrowed book creation failed\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member/borrowed",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member",
+								"borrowed"
+							]
+						},
+						"description": "Кейс некорректного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "borrowed-delete-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа 500\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'server error'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"server error\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"member_id\": \"3c864c77-39a5-4157-9fb6-39d72be81669\",\r\n    \"book_id\": \"5dee5c81-5ee4-44a9-97e5-0eb7955792a4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member/1/borrowed/1",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member",
+								"1",
+								"borrowed",
+								"1"
+							]
+						},
+						"description": "Кейс некорректного тела запроса"
+					},
+					"response": []
+				},
+				{
+					"name": "borrowed-delete-list-invalid-request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Код статуса ответа 500\", () => {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Время отклика составляет менее 1 минуты\", () => {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(60000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Заголовки ответов содержат необходимую информацию\", () => {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Поле 'error' содержит значение 'server error'\", () => {\r",
+									"  const j = pm.response.json();\r",
+									"  pm.expect(j && j.error).to.eql(\"server error\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{libraryBaseUrl}}/member/1/borrowed/1",
+							"host": [
+								"{{libraryBaseUrl}}"
+							],
+							"path": [
+								"member",
+								"1",
+								"borrowed",
+								"1"
+							]
+						},
+						"description": "Кейс некорректного ID запроса"
+					},
+					"response": []
+				}
+			],
+			"description": "Сервис API для управления библиотекой."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "libraryBaseUrl",
+			"value": ""
+		}
+	]
+}
