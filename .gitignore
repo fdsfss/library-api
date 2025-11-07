@@ -1,0 +1,6 @@
+# Exclude files from IDE GoLand (JetBrains)
+.idea/
+*.iml
+
+# Exclude files from the GoLand IDE
+.scannerwork/

@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:15
+    container_name: library-api-db
+    restart: always
+    ports:
+      - "5555:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U Dana -d library-db" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+    environment:
+      POSTGRES_USER: Dana
+      POSTGRES_PASSWORD: qwerty123
+      POSTGRES_DB: library-db
+
+  migrate:
+    image: migrate/migrate
+    container_name: library-api-migrate
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure
+    volumes:
+      - ./pkg/db/migrations:/migrations
+    command:
+      [
+        "-path", "/migrations",
+        "-database", "postgres://Dana:qwerty123@db:5432/library-db?sslmode=disable",
+        "up"
+      ]
+
+  app:
+    image: library-api-app:latest
+    container_name: library-api-app
+    depends_on:
+      - db
+      - migrate
+    environment:
+      - PORT=8080
+      - DB_CONN=host=db port=5432 user=Dana password=qwerty123 dbname=library-db sslmode=disable
+    ports:
+      - "8080:8080"
+
+  k6:
+    image: grafana/k6:latest
+    container_name: library-api-k6
+    depends_on:
+      - migrate
+      - app
+    volumes:
+      - ./k6:/k6
+    command: ["run", "/k6/script.js"]

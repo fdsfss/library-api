@@ -1,0 +1,9 @@
+---
+- name: DB_CONN
+  valueForm:
+    secretKeyRef:
+      name: ${NAMESECRET}
+      key: DB_CONN
+      optional: false
+- name: PORT
+  value: "8080"
